@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Movie from "../components/Movie";
+import styles from "./Home.module.css";
 
 function Home() {
     const [loading, setLoading] = useState(true);
@@ -16,7 +17,7 @@ function Home() {
           Authorization: `Bearer ${API_KEY}`
         }
       };
-      
+
       const getMovies = async () => {
         const json = await (
           await fetch(popular_movies_url, options)
@@ -30,11 +31,15 @@ function Home() {
     }, []);
   
     return (
-      <div>
+
+      <div className={styles.container}>
         {loading ? (
-          <h1>Loading...</h1>
+          <div className={styles.loader}>
+          <span>Loading...</span>
+        </div>
         ) : (
-          <div>
+          
+          <div className={styles.movies}>
             {movies.map((movie) => (
               <Movie
                 key={movie.id}
@@ -42,7 +47,7 @@ function Home() {
                 coverImg ={movie.poster_path}
                 title={movie.title}
                 summary={movie.overview}
-                genres={movie.genre_ids}
+                originalTitle={movie.original_title}
                 releaseDate={movie.release_date}
                 popularity={movie.popularity}
                 voteAverage={movie.vote_average}
