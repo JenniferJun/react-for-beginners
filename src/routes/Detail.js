@@ -4,28 +4,26 @@ import { Link, useParams } from "react-router-dom";
 function Detail(){
   const { id } = useParams();
     const [movie, setMovies] = useState({});
-    const API_KEY = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4ZWE1NWM2MWFlNzA2OTUwYzE3NjQ5ZDIxMWNkMjczMiIsIm5iZiI6MTc0MDk3OTE0Mi4xNTIsInN1YiI6IjY3YzUzYmM2NTY0ZDI1NzVkOTkxZWUxMCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.boEEWEKtahlZdQAdgDEYpF5v3Xg1rU3_llGj2Ex2Q6k"
-    const movi_detail_url = `https://api.themoviedb.org/3/movie/${id}?language=ko&page=1&region=KR`;
-  
-    const options = {
-      method: 'GET',
-      headers: {
-        accept: 'application/json',
-        Authorization: `Bearer ${API_KEY}`
-      }
-    };    
-
-    const getMovies = async () => {
-      const json = await (
-        await fetch(movi_detail_url, options)
-      ).json();
-      //console.log(json);
-      console.log(json);
-      setMovies(json); 
-    };
+    const API_KEY = process.env.REACT_APP_TMDB_API_KEY;
 
     useEffect(() => {
-        getMovies();
+        const movi_detail_url = `https://api.themoviedb.org/3/movie/${id}?language=ko&page=1&region=KR`;
+    
+        const options = {
+          method: 'GET',
+          headers: {
+            accept: 'application/json',
+            Authorization: `Bearer ${API_KEY}`
+          }
+        };    
+        const getMovies = async () => {      const json = await (
+          await fetch(movi_detail_url, options)
+        ).json();
+        console.log(json);
+        setMovies(json); 
+      };
+
+      getMovies();
     }, []);
 
     return (
